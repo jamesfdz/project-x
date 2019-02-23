@@ -1,0 +1,12 @@
+.container-fluid{
+	padding-top: 10px;
+}
+.form{
+	padding-top: 10px;
+}
+.form-control{
+	width: auto;
+}
+.custom-select{
+	width: auto;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SanAuto</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-database.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<select id="sel" class="data custom-select mb-2 mr-sm-2 mb-sm-0">
+			<option value="">----Select Employee----</option>
+		</select>
+		<form class="form" action="">
+	  		<input id="wfh" type="radio" name="select" value="wfh" />
+	  		<label>WFH</label>	
+	  		<input id="late" type="radio" name="select" value="late" />
+	  		<label>Late (Hrs)</label>
+	  		<input id="early" type="radio" name="select" value="early" />
+	  		<label>Early (Hrs)</label>
+		</form action="">
+	</div>
+
+	<div class="container-fluid">
+		<input class="form-control datepickerLate" type="date" name="name" id="datepicker" style="display:none" value="" />
+		<input type="text" name="" id="earlyHours" class="hours form-control" style="display: none;" />
+		<label class="col-form-label" id="hrs" class="earlyHours" value="Hrs" style="display: none;">Hrs</label>
+	</div>
+
+	<div class="container-fluid">
+		<input type="button" class="btn btn-primary" name="" value="Add" id="add">
+		<input type="button" class="btn btn-danger" name="" value="Delete" id="delete-row">
+		<input type="button" class="btn btn-success" name="" value="Export to Excel" id="export">
+	</div>
+
+	<div id="divData" class="container-fluid">
+		<table class="table table-bordered table-sm">
+			<thead>
+				<!-- <th>Select</th> -->
+				<th>Employee Name</th>
+				<th>Enterprise ID</th>
+				<th>WFH</th>
+				<th>Late / Early (Date)</th>
+				<th>Late (Hrs)</th>
+				<th>Early (Hrs)</th>
+			</thead>
+			<tbody id="tbody">
+				
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		function fetchTable(){
+
+        var ref = firebase.database().ref();
+
+        ref.on("child_added", function(snapshot,prevChildKey) {
+           var data = snapshot.val();
+           var empNameFetched = data.employeeName;
+           var entIdFetched = data.enterpriseID;
+           var wfhFetched = data.wfh;
+           var lateEarlyDateFetched = data.lateEarlyDate;
+           var lateHoursFetched = data.lateHours;
+           var earlyHoursFetched = data.earlyHours;
+           var markup = '<tr><td><input type="checkbox" name="record"></td><td>'+ empNameFetched +'</td><td>'+ entIdFetched +'</td><td>'+ wfhFetched +'</td><td>'+ lateEarlyDateFetched +'</td><td>'+ lateHoursFetched +'</td><td>'+ earlyHoursFetched +'</td></tr>';
+           $("#tbody").append(markup);
+        }, function (error) {
+           console.log("Error: " + error.code);
+        });
+
+    }
+	</script>
+</body>
+</html>
